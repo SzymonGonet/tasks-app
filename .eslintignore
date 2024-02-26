@@ -1,0 +1,4 @@
+tailwind.config.js
+babel.config.js
+expo-env.d.ts
+node_modules/

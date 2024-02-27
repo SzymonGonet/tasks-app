@@ -2,13 +2,10 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { SplashScreen } from 'expo-router';
-import { Drawer } from 'expo-router/drawer';
+import { SplashScreen, Stack } from 'expo-router';
 import React, { useEffect } from 'react';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import SpaceMono from '@/assets/fonts/SpaceMono-Regular.ttf';
-import CustomDrawer from '@/components/drawer';
 
 const LightTheme = {
   dark: false,
@@ -50,28 +47,10 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <ThemeProvider value={LightTheme}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <Drawer
-          screenOptions={{
-            drawerHideStatusBarOnOpen: true,
-            drawerType: 'back',
-            headerShown: false,
-          }}
-          drawerContent={CustomDrawer}>
-          <Drawer.Screen
-            name="index"
-            options={{
-              drawerLabel: 'Notes',
-            }}
-          />
-          <Drawer.Screen
-            name="author"
-            options={{
-              drawerLabel: 'Author',
-            }}
-          />
-        </Drawer>
-      </GestureHandlerRootView>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="tasks" />
+      </Stack>
     </ThemeProvider>
   );
 }

@@ -1,64 +1,62 @@
-import { useTheme } from '@react-navigation/native';
-import Checkbox from 'expo-checkbox';
-import * as SecureStore from 'expo-secure-store';
+import { useRouter } from 'expo-router';
+import moment from 'moment';
 import { FC, useEffect, useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 
+import Date from '@/components/date';
 import Navbar from '@/components/navbar';
-
-type Task = {
-  id: number;
-  title: string;
-  isChecked: boolean;
-};
-
-const tasks: Task[] = [
-  { id: 0, title: 'Task 1', isChecked: false },
-  { id: 1, title: 'Task 2', isChecked: false },
-  { id: 2, title: 'Task 3', isChecked: false },
-  { id: 3, title: 'Task 4', isChecked: false },
-];
+import { categories } from '@/utils/helpers';
 
 const HomeScreen: FC = () => {
-  const [taskList, setTaskList] = useState<Task[]>(tasks);
-  const { colors } = useTheme();
+  const [dates, setDates] = useState<string[]>([]);
+  const [selectedDate, setSelectedDate] = useState(moment().format('YYYY-MM-DD'));
+  const router = useRouter();
+
+  const getDates = () => {
+    const _dates: string[] = [];
+    for (let i = 0; i < 10; i++) {
+      const date = moment().add(i, 'days').format('YYYY-MM-DD');
+      _dates.push(date);
+    }
+    setDates(_dates);
+  };
 
   useEffect(() => {
-    void loadTaskList();
+    getDates();
   }, []);
 
-  const loadTaskList = async () => {
-    const storedTaskList = await SecureStore.getItemAsync('taskList');
-    if (storedTaskList) {
-      setTaskList(JSON.parse(storedTaskList) as Task[]);
-    }
-  };
-
-  const handleCheck = async (index: number) => {
-    const updatedTaskList = [...taskList];
-    updatedTaskList[index].isChecked = !updatedTaskList[index].isChecked;
-    setTaskList(updatedTaskList);
-    await SecureStore.setItemAsync('taskList', JSON.stringify(updatedTaskList));
-  };
-
   return (
-    <View className="flex-1 space-y-[150px] bg-red-400">
+    <View className="flex-1">
       <Navbar />
-      <ScrollView showsVerticalScrollIndicator={false} className="rounded-t-[20px] bg-white">
-        {taskList.map((item, index) => (
-          <View
-            key={index}
-            className="flex flex-row items-center space-x-[15px] border-b-[1px] border-gray-300 px-[20px] py-[30px]">
-            <Checkbox
-              value={item.isChecked}
-              onValueChange={() => handleCheck(index)}
-              color={item.isChecked ? colors.border : undefined}
-              className="rounded-[6px]"
+      <View className="pt-[40px]">
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} className="px-[20px]">
+          {dates.map((item, index) => (
+            <Date
+              key={index}
+              date={item}
+              selectedDate={selectedDate}
+              isSelectedDate={setSelectedDate}
             />
-            <Text className={`${item.isChecked && 'line-through'}`}>{item.title}</Text>
+          ))}
+        </ScrollView>
+      </View>
+      <View className="flex-1 pt-[40px]">
+        <Text className="px-[30px] pb-[20px] text-[16px] font-medium uppercase">
+          choose activity
+        </Text>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flex: 1 }}>
+          <View className="flex w-full flex-col space-y-[25px] px-[30px] pt-[10px]">
+            {categories.map((item, index) => (
+              <Pressable
+                key={index}
+                onPress={() => router.push('/tasks')}
+                className="flex w-full flex-row rounded-[16px] bg-white p-[30px] shadow-md">
+                <Text className="text-[16px] font-medium">{item.title}</Text>
+              </Pressable>
+            ))}
           </View>
-        ))}
-      </ScrollView>
+        </ScrollView>
+      </View>
     </View>
   );
 };

@@ -1,27 +1,35 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useTheme } from '@react-navigation/native';
 import Checkbox from 'expo-checkbox';
 import { useLocalSearchParams } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
-import moment from 'moment';
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 
 import { TrashIcon } from '@/assets/icons';
 import Navbar from '@/components/navbar';
 import { Task } from '@/models/task';
+import { formattedDayName } from '@/utils/helpers';
 
 const TaskScreen: FC = () => {
   const [taskList, setTaskList] = useState<Task[]>([]);
   const { colors } = useTheme();
   const params = useLocalSearchParams();
-  const { categoryId, categoryName, dayName } = params;
+  const { categoryId, categoryName, dayName } = params as {
+    categoryId: string;
+    categoryName: string;
+    dayName: string;
+  };
 
-  useEffect(() => {
-    void loadTaskList();
-  }, [categoryId]);
+  const getTaskKey = () => `taskList_${categoryId}_${dayName}`;
+
+  const saveTaskList = async (updatedTaskList: Task[]) => {
+    await SecureStore.setItemAsync(getTaskKey(), JSON.stringify(updatedTaskList));
+    setTaskList(updatedTaskList);
+  };
 
   const loadTaskList = async () => {
-    const storedTaskList = await SecureStore.getItemAsync(`taskList_${categoryId.toString()}`);
+    const storedTaskList = await SecureStore.getItemAsync(getTaskKey());
     if (storedTaskList) {
       setTaskList(JSON.parse(storedTaskList) as Task[]);
     }
@@ -30,47 +38,31 @@ const TaskScreen: FC = () => {
   const handleCheck = async (index: number) => {
     const updatedTaskList = [...taskList];
     updatedTaskList[index].isChecked = !updatedTaskList[index].isChecked;
-    setTaskList(updatedTaskList);
-    await SecureStore.setItemAsync(
-      `taskList_${categoryId.toString()}`,
-      JSON.stringify(updatedTaskList)
-    );
+    await saveTaskList(updatedTaskList);
   };
 
   const handleDelete = async (index: number) => {
     const remainingTasks = [...taskList];
     remainingTasks.splice(index, 1);
-    setTaskList([...remainingTasks]);
-    await SecureStore.setItemAsync(
-      `taskList_${categoryId.toString()}`,
-      JSON.stringify(remainingTasks)
-    );
+    await saveTaskList(remainingTasks);
   };
 
   const handleAdd = async () => {
-    const storedTaskList = await SecureStore.getItemAsync(`taskList_${categoryId.toString()}`);
-    const existingTasks = storedTaskList ? (JSON.parse(storedTaskList) as Task[]) : [];
-
     const newTask: Task = {
-      id: existingTasks.length > 0 ? existingTasks[existingTasks.length - 1].id + 1 : 1,
+      id: taskList.length > 0 ? taskList[taskList.length - 1].id + 1 : 1,
       title: 'New Task',
       isChecked: false,
-      categoryId: parseInt(categoryId.toString()),
+      categoryId: parseInt(categoryId),
+      date: dayName,
     };
 
-    const updatedTaskList = [...existingTasks, newTask];
-
-    await SecureStore.setItemAsync(
-      `taskList_${categoryId.toString()}`,
-      JSON.stringify(updatedTaskList)
-    );
-    setTaskList(updatedTaskList);
+    const updatedTaskList = [...taskList, newTask];
+    await saveTaskList(updatedTaskList);
   };
 
-  const day =
-    moment(dayName).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD')
-      ? 'Today'
-      : moment(dayName).format('dddd');
+  useEffect(() => {
+    void loadTaskList();
+  }, [categoryId, dayName]);
 
   return (
     <View style={{ backgroundColor: colors.primary }} className="flex-1">
@@ -80,8 +72,8 @@ const TaskScreen: FC = () => {
         <Text className="text-white">{taskList.length} incomplete tasks</Text>
       </View>
       <View className="flex-1 rounded-tl-[40px] bg-white">
-        <Text className="px-[30px] pb-[15px] pt-[30px] text-[16px] font-medium uppercase text-gray-400">
-          {day}
+        <Text className="px-[30px] pb-[15px] pt-[30px] text-[16px] font-medium">
+          {formattedDayName(dayName)}
         </Text>
         <ScrollView showsVerticalScrollIndicator={false}>
           {taskList.map((item, index) => (

@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import { SquareIcon } from '@/assets/icons';
 import { Category } from '@/models/category';
 
@@ -28,3 +30,8 @@ export const categories: Category[] = [
     icon: <SquareIcon />,
   },
 ];
+
+export const formattedDayName = (date: string) =>
+  moment(date).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD')
+    ? 'Today'
+    : moment(date).format('ddd');

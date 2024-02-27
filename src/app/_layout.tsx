@@ -5,15 +5,15 @@ import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import React, { useEffect } from 'react';
 
-import SpaceMono from '@/assets/fonts/SpaceMono-Regular.ttf';
+import Urbanist from '@/assets/fonts/Urbanist-Regular.ttf';
 
 const LightTheme = {
   dark: false,
   colors: {
-    primary: '#32CD32',
+    primary: '#7782B3',
     background: '#FFFFFF',
     card: '#FFFFFF',
-    border: '#808080',
+    border: '#FFFFFF',
     text: '#000000',
     notification: '#0F172A',
   },
@@ -23,7 +23,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono,
+    Urbanist,
     ...FontAwesome.font,
   });
 

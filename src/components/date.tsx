@@ -15,12 +15,12 @@ const Date: FC<Props> = ({ date, selectedDate, isSelectedDate }) => {
       : moment(date).format('ddd');
 
   const dayNumber = moment(date).format('D');
-
   const fullDate = moment(date).format('YYYY-MM-DD');
+
   return (
     <TouchableOpacity
       onPress={() => isSelectedDate(fullDate)}
-      className={`mx-[10px] flex h-[90px] w-[80px] flex-col items-center justify-center rounded-[16px] bg-gray-100 p-[15px] ${selectedDate === fullDate && 'bg-purple-400'}`}>
+      className={`mx-[10px] flex h-[90px] w-[80px] flex-col items-center justify-center rounded-[16px] bg-gray-100 p-[15px] ${selectedDate === fullDate && 'bg-[#7782B3]'}`}>
       <Text className={`text-[18px] ${selectedDate === fullDate && 'text-white'}`}>{day}</Text>
       <View style={{ height: 10 }} />
       <Text className={`text-[14px] ${selectedDate === fullDate && 'text-white'}`}>

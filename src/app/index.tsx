@@ -41,7 +41,7 @@ const HomeScreen: FC = () => {
         </ScrollView>
       </View>
       <View className="flex-1 pt-[40px]">
-        <Text className="px-[30px] pb-[20px] text-[16px] font-medium uppercase">
+        <Text className="px-[30px] pb-[20px] text-[18px] font-medium uppercase">
           choose activity
         </Text>
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flex: 1 }}>
@@ -49,9 +49,15 @@ const HomeScreen: FC = () => {
             {categories.map((item, index) => (
               <Pressable
                 key={index}
-                onPress={() => router.push('/tasks')}
-                className="flex w-full flex-row rounded-[16px] bg-white p-[30px] shadow-md">
-                <Text className="text-[16px] font-medium">{item.title}</Text>
+                onPress={() =>
+                  router.push({
+                    pathname: '/tasks',
+                    params: { category: item.title, dayName: selectedDate },
+                  })
+                }
+                className="flex flex-row items-center space-x-[20px] rounded-[16px] bg-white p-[30px] shadow-md">
+                {item.icon}
+                <Text className="text-[18px] font-medium">{item.title}</Text>
               </Pressable>
             ))}
           </View>

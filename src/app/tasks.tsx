@@ -14,14 +14,14 @@ const TaskScreen: FC = () => {
   const [taskList, setTaskList] = useState<Task[]>([]);
   const { colors } = useTheme();
   const params = useLocalSearchParams();
-  const { category, dayName } = params;
+  const { categoryId, categoryName, dayName } = params;
 
   useEffect(() => {
     void loadTaskList();
-  }, []);
+  }, [categoryId]);
 
   const loadTaskList = async () => {
-    const storedTaskList = await SecureStore.getItemAsync('taskList');
+    const storedTaskList = await SecureStore.getItemAsync(`taskList_${categoryId.toString()}`);
     if (storedTaskList) {
       setTaskList(JSON.parse(storedTaskList) as Task[]);
     }
@@ -31,28 +31,40 @@ const TaskScreen: FC = () => {
     const updatedTaskList = [...taskList];
     updatedTaskList[index].isChecked = !updatedTaskList[index].isChecked;
     setTaskList(updatedTaskList);
-    await SecureStore.setItemAsync('taskList', JSON.stringify(updatedTaskList));
+    await SecureStore.setItemAsync(
+      `taskList_${categoryId.toString()}`,
+      JSON.stringify(updatedTaskList)
+    );
   };
 
   const handleDelete = async (index: number) => {
     const remainingTasks = [...taskList];
     remainingTasks.splice(index, 1);
     setTaskList([...remainingTasks]);
-    await SecureStore.setItemAsync('taskList', JSON.stringify(remainingTasks));
+    await SecureStore.setItemAsync(
+      `taskList_${categoryId.toString()}`,
+      JSON.stringify(remainingTasks)
+    );
   };
 
   const handleAdd = async () => {
-    const storedTaskList = await SecureStore.getItemAsync('taskList');
+    const storedTaskList = await SecureStore.getItemAsync(`taskList_${categoryId.toString()}`);
     const existingTasks = storedTaskList ? (JSON.parse(storedTaskList) as Task[]) : [];
 
-    existingTasks.push({
+    const newTask: Task = {
+      id: existingTasks.length > 0 ? existingTasks[existingTasks.length - 1].id + 1 : 1,
       title: 'New Task',
       isChecked: false,
-      id: 0,
-    });
+      categoryId: parseInt(categoryId.toString()),
+    };
 
-    await SecureStore.setItemAsync('taskList', JSON.stringify(existingTasks));
-    setTaskList(existingTasks);
+    const updatedTaskList = [...existingTasks, newTask];
+
+    await SecureStore.setItemAsync(
+      `taskList_${categoryId.toString()}`,
+      JSON.stringify(updatedTaskList)
+    );
+    setTaskList(updatedTaskList);
   };
 
   const day =
@@ -64,7 +76,7 @@ const TaskScreen: FC = () => {
     <View style={{ backgroundColor: colors.primary }} className="flex-1">
       <Navbar onClick={handleAdd} />
       <View className="flex flex-col space-y-[5px] px-[30px] pb-[30px] pt-[60px]">
-        <Text className="text-[22px] font-medium text-white">{category}</Text>
+        <Text className="text-[22px] font-medium text-white">{categoryName}</Text>
         <Text className="text-white">{taskList.length} incomplete tasks</Text>
       </View>
       <View className="flex-1 rounded-tl-[40px] bg-white">

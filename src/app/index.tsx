@@ -52,7 +52,11 @@ const HomeScreen: FC = () => {
                 onPress={() =>
                   router.push({
                     pathname: '/tasks',
-                    params: { category: item.title, dayName: selectedDate },
+                    params: {
+                      categoryId: item.id,
+                      categoryName: item.title,
+                      dayName: selectedDate,
+                    },
                   })
                 }
                 className="flex flex-row items-center space-x-[20px] rounded-[16px] bg-white p-[30px] shadow-md">

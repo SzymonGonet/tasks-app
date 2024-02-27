@@ -80,7 +80,9 @@ const TaskScreen: FC = () => {
         <Text className="text-white">{taskList.length} incomplete tasks</Text>
       </View>
       <View className="flex-1 rounded-tl-[40px] bg-white">
-        <Text className="px-[30px] pb-[15px] pt-[30px] text-[16px] font-medium">{day}</Text>
+        <Text className="px-[30px] pb-[15px] pt-[30px] text-[16px] font-medium uppercase text-gray-400">
+          {day}
+        </Text>
         <ScrollView showsVerticalScrollIndicator={false}>
           {taskList.map((item, index) => (
             <View

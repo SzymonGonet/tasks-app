@@ -20,7 +20,7 @@ const Date: FC<Props> = ({ date, selectedDate, isSelectedDate }) => {
   return (
     <TouchableOpacity
       onPress={() => isSelectedDate(fullDate)}
-      className={`mx-[10px] flex h-[90px] w-[80px] flex-col items-center justify-center rounded-[16px] bg-gray-100 p-[15px] ${selectedDate === fullDate && 'bg-[#7782B3]'}`}>
+      className={`mx-[10px] my-[10px] flex h-[90px] w-[80px] flex-col items-center justify-center rounded-[16px] bg-gray-100 p-[15px] shadow-sm ${selectedDate === fullDate && 'bg-[#7782B3]'}`}>
       <Text className={`text-[18px] ${selectedDate === fullDate && 'text-white'}`}>{day}</Text>
       <View style={{ height: 10 }} />
       <Text className={`text-[14px] ${selectedDate === fullDate && 'text-white'}`}>

@@ -28,7 +28,7 @@ const HomeScreen: FC = () => {
   return (
     <View className="flex-1">
       <Navbar />
-      <View className="pt-[40px]">
+      <View className="pt-[30px]">
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} className="px-[20px]">
           {dates.map((item, index) => (
             <Date
@@ -40,7 +40,7 @@ const HomeScreen: FC = () => {
           ))}
         </ScrollView>
       </View>
-      <View className="flex-1 pt-[40px]">
+      <View className="flex-1 pt-[30px]">
         <Text className="px-[30px] pb-[20px] text-[18px] font-medium uppercase">
           choose activity
         </Text>

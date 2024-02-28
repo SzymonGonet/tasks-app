@@ -2,7 +2,7 @@ import { router, usePathname } from 'expo-router';
 import { FC } from 'react';
 import { Pressable, View } from 'react-native';
 
-import { ArrowLeft, MoonIcon, SquareIcon } from '@/assets/icons';
+import { ArrowLeft, SquareIcon } from '@/assets/icons';
 
 type Props = {
   onClick?: () => void;
@@ -13,7 +13,7 @@ const Navbar: FC<Props> = ({ onClick }) => {
 
   return (
     <View className="flex flex-row justify-between px-[30px] pt-[70px]">
-      {routeName !== '/' ? (
+      {routeName !== '/' && (
         <>
           <Pressable onPress={() => router.back()} className="flex-1">
             <ArrowLeft strokeColor="#FAFAFA" />
@@ -22,10 +22,6 @@ const Navbar: FC<Props> = ({ onClick }) => {
             <SquareIcon strokeColor={routeName !== '/' ? '#FAFAFA' : '#000000'} />
           </Pressable>
         </>
-      ) : (
-        <Pressable onPress={() => null} className="flex-1">
-          <MoonIcon strokeColor={routeName !== '/' ? '#FAFAFA' : '#000000'} />
-        </Pressable>
       )}
     </View>
   );

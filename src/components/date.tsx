@@ -2,8 +2,6 @@ import moment from 'moment';
 import { FC } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import { formattedDayName } from '@/utils/helpers';
-
 type Props = {
   date: string;
   selectedDate: string;
@@ -13,6 +11,10 @@ type Props = {
 const Date: FC<Props> = ({ date, selectedDate, isSelectedDate }) => {
   const dayNumber = moment(date).format('D');
   const fullDate = moment(date).format('YYYY-MM-DD');
+  const formattedDayName = (date: string) =>
+    moment(date).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD')
+      ? 'Today'
+      : moment(date).format('ddd');
 
   return (
     <TouchableOpacity

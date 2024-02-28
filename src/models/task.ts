@@ -4,4 +4,6 @@ export type Task = {
   isChecked: boolean;
   categoryId: number;
   date: string;
+  startTime: Date;
+  endTime: Date;
 };

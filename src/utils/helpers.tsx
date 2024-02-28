@@ -1,30 +1,36 @@
-import { SquareIcon } from '@/assets/icons';
+import {
+  AcademicCapIcon,
+  BriedcaseIcon,
+  HomeIcon,
+  MusicalNoteIcon,
+  TrophyIcon,
+} from '@/assets/icons';
 import { Category } from '@/models/category';
 
 export const categories: Category[] = [
   {
     id: 0,
     title: 'Work',
-    icon: <SquareIcon className="h-[48px] w-[48px]" />,
+    icon: <BriedcaseIcon strokeColor="#7782B3" />,
   },
   {
     id: 1,
-    title: 'Sports',
-    icon: <SquareIcon />,
+    title: 'Study',
+    icon: <AcademicCapIcon strokeColor="#7782B3" />,
   },
   {
     id: 2,
-    title: 'Food',
-    icon: <SquareIcon />,
+    title: 'Home',
+    icon: <HomeIcon strokeColor="#7782B3" />,
   },
   {
     id: 3,
-    title: 'Music',
-    icon: <SquareIcon />,
+    title: 'Sports',
+    icon: <TrophyIcon strokeColor="#7782B3" />,
   },
   {
     id: 4,
-    title: 'Study',
-    icon: <SquareIcon />,
+    title: 'Music',
+    icon: <MusicalNoteIcon strokeColor="#7782B3" />,
   },
 ];

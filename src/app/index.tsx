@@ -4,7 +4,6 @@ import { FC, useEffect, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 
 import Date from '@/components/date';
-import Navbar from '@/components/navbar';
 import { categories } from '@/utils/helpers';
 
 const HomeScreen: FC = () => {
@@ -27,8 +26,7 @@ const HomeScreen: FC = () => {
 
   return (
     <View className="flex-1">
-      <Navbar />
-      <View className="pt-[30px]">
+      <View className="pt-[70px]">
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} className="px-[20px]">
           {dates.map((item, index) => (
             <Date

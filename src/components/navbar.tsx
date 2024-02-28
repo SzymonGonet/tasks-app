@@ -13,7 +13,7 @@ const Navbar: FC<Props> = ({ onClick }) => {
 
   return (
     <View className="flex flex-row justify-between px-[30px] pt-[70px]">
-      {routeName !== '/' && (
+      {routeName !== '/' ? (
         <>
           <Pressable onPress={() => router.back()} className="flex-1">
             <ArrowLeft strokeColor="#FAFAFA" />
@@ -22,7 +22,7 @@ const Navbar: FC<Props> = ({ onClick }) => {
             <SquareIcon strokeColor={routeName !== '/' ? '#FAFAFA' : '#000000'} />
           </Pressable>
         </>
-      )}
+      ) : null}
     </View>
   );
 };

@@ -18,7 +18,7 @@ const TaskScreen: FC = () => {
   const [noteTitle, setNoteTitle] = useState('');
   const [timeRange, setTimeRange] = useState({
     startTime: new Date(),
-    endTime: new Date(),
+    endTime: new Date(Date.now() + 60 * 60 * 1000),
   });
   const { colors } = useTheme();
   const params = useLocalSearchParams();
@@ -71,12 +71,16 @@ const TaskScreen: FC = () => {
 
     const updatedTaskList = [...taskList, newTask];
     await saveTaskList(updatedTaskList);
+    setModalVisible(!modalVisible);
   };
 
   const formattedDayName = (date: string) =>
     moment(date).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD')
       ? 'Today'
       : moment(date).format('dddd');
+
+  const sortTasksByStartTime = (tasks: Task[]) =>
+    tasks.slice().sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
 
   useEffect(() => {
     void loadTaskList();
@@ -85,8 +89,8 @@ const TaskScreen: FC = () => {
   return (
     <View style={{ backgroundColor: colors.primary }} className="flex-1">
       <Navbar onClick={handleToggleModal} />
-      <View className="flex flex-col space-y-[5px] px-[30px] pb-[30px] pt-[60px]">
-        <Text className="text-[22px] font-medium text-white">{categoryName}</Text>
+      <View className="flex flex-col space-y-[4px] px-[30px] pb-[30px] pt-[60px]">
+        <Text className="text-[28px] font-medium text-white">{categoryName}</Text>
         <Text className="text-white">{taskList.length} incomplete tasks</Text>
       </View>
       <View className="flex-1 rounded-tl-[40px] bg-white">
@@ -99,7 +103,7 @@ const TaskScreen: FC = () => {
           </View>
         ) : (
           <ScrollView showsVerticalScrollIndicator={false}>
-            {taskList.map((item, index) => (
+            {sortTasksByStartTime(taskList).map((item, index) => (
               <View
                 key={index}
                 className="flex flex-row items-center justify-between  px-[30px] py-[20px]">
@@ -132,7 +136,7 @@ const TaskScreen: FC = () => {
       </View>
       <ModalBox
         isModalVisible={modalVisible}
-        label="add task"
+        label="create new task"
         toggleModal={handleToggleModal}
         leftButton="close"
         rightButton="add"

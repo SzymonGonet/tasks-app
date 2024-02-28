@@ -39,7 +39,9 @@ const ModalBox: FC<Props> = ({
     useNativeDriver={true}>
     <View className="justify-between space-y-[40px] rounded-3xl bg-white p-8">
       <View className="space-y-[26px]">
-        <Text className="text-center text-[20px] font-medium uppercase">{label}</Text>
+        <Text className="text-center text-[20px] font-medium uppercase text-[#7782B3]">
+          {label}
+        </Text>
         <TextInput
           onChangeText={handleTextChange}
           placeholder="Enter task title"
@@ -48,17 +50,29 @@ const ModalBox: FC<Props> = ({
         <View className="flex flex-row space-x-[12px]">
           <View className="flex flex-1 flex-row items-center">
             <Text className="text-[18px] font-medium">Start:</Text>
-            <DateTimePicker value={startTime} onChange={() => setStartTime} mode="time" />
+            <DateTimePicker
+              value={startTime}
+              onChange={(_, selectedTime) => {
+                setStartTime(selectedTime || startTime);
+              }}
+              mode="time"
+            />
           </View>
           <View className="flex flex-1 flex-row items-center">
             <Text className="text-[18px] font-medium">End:</Text>
-            <DateTimePicker value={endTime} onChange={() => setEndTime} mode="time" />
+            <DateTimePicker
+              value={endTime}
+              onChange={(_, selectedTime) => {
+                setEndTime(selectedTime || endTime);
+              }}
+              mode="time"
+            />
           </View>
         </View>
       </View>
       <View className="flex flex-row space-x-[12px]">
         <Pressable
-          className="flex-1 items-center rounded-[16px] border border-gray-400 bg-gray-400 py-3"
+          className="flex-1 items-center rounded-[16px] border border-gray-300 bg-gray-300 py-3"
           onPress={toggleModal}>
           <Text className="text-[14px] uppercase text-white">{leftButton}</Text>
         </Pressable>

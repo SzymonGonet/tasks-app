@@ -3,6 +3,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
 
 import Urbanist from '@/assets/fonts/Urbanist-Regular.ttf';
@@ -47,6 +48,7 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <ThemeProvider value={LightTheme}>
+      <StatusBar style="dark" />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="tasks" />

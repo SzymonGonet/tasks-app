@@ -74,12 +74,12 @@ const ModalBox: FC<Props> = ({
         <Pressable
           className="flex-1 items-center rounded-[16px] border border-gray-300 bg-gray-300 py-3"
           onPress={toggleModal}>
-          <Text className="text-[14px] uppercase text-white">{leftButton}</Text>
+          <Text className="text-[16px] font-medium uppercase text-white">{leftButton}</Text>
         </Pressable>
         <Pressable
           className="flex-1 items-center rounded-[16px] border border-[#7782B3] bg-[#7782B3] py-3"
           onPress={onPress}>
-          <Text className="text-[14px] uppercase text-white">{rightButton}</Text>
+          <Text className="text-[16px] font-medium uppercase text-white">{rightButton}</Text>
         </Pressable>
       </View>
     </View>

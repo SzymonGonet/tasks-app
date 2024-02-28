@@ -6,8 +6,8 @@ import * as SecureStore from 'expo-secure-store';
 import moment from 'moment';
 import React, { FC, useEffect, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Iconify } from 'react-native-iconify';
 
-import { TrashIcon } from '@/assets/icons';
 import ModalBox from '@/components/modal-box';
 import Navbar from '@/components/navbar';
 import { Task } from '@/models/task';
@@ -89,9 +89,11 @@ const TaskScreen: FC = () => {
   return (
     <View style={{ backgroundColor: colors.primary }} className="flex-1">
       <Navbar onClick={handleToggleModal} />
-      <View className="flex flex-col space-y-[4px] px-[30px] pb-[30px] pt-[60px]">
-        <Text className="text-[28px] font-medium text-white">{categoryName}</Text>
-        <Text className="text-white">{taskList.length} incomplete tasks</Text>
+      <View className="flex flex-row">
+        <View className="flex flex-col space-y-[4px] px-[30px] pb-[30px] pt-[60px]">
+          <Text className="text-[28px] font-medium text-white">{categoryName}</Text>
+          <Text className="text-white">{taskList.length} incomplete tasks</Text>
+        </View>
       </View>
       <View className="flex-1 rounded-tl-[40px] bg-white">
         <Text className="px-[30px] pb-[15px] pt-[30px] text-[20px] font-medium">
@@ -109,7 +111,7 @@ const TaskScreen: FC = () => {
                 className="flex flex-row items-center justify-between  px-[30px] py-[20px]">
                 <View className="flex flex-row items-center space-x-[24px]">
                   <Pressable onPress={() => handleDelete(index)}>
-                    <TrashIcon />
+                    <Iconify icon="heroicons:trash" size={24} color="#7782B3" />
                   </Pressable>
                   <View className="flex flex-col space-y-[4px]">
                     <Text

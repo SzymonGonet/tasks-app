@@ -1,8 +1,7 @@
 import { router, usePathname } from 'expo-router';
 import { FC } from 'react';
 import { Pressable, View } from 'react-native';
-
-import { ArrowLeft, SquareIcon } from '@/assets/icons';
+import { Iconify } from 'react-native-iconify';
 
 type Props = {
   onClick?: () => void;
@@ -16,10 +15,14 @@ const Navbar: FC<Props> = ({ onClick }) => {
       {routeName !== '/' ? (
         <>
           <Pressable onPress={() => router.back()} className="flex-1">
-            <ArrowLeft strokeColor="#FAFAFA" />
+            <Iconify icon="heroicons:arrow-left" size={24} color="#FAFAFA" />
           </Pressable>
           <Pressable onPress={onClick} className="flex-1 items-end">
-            <SquareIcon strokeColor={routeName !== '/' ? '#FAFAFA' : '#000000'} />
+            <Iconify
+              icon="heroicons:squares-plus"
+              size={24}
+              color={routeName !== '/' ? '#FAFAFA' : '#000000'}
+            />
           </Pressable>
         </>
       ) : null}

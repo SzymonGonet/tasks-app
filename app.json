@@ -16,7 +16,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.szymongon.tasksapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -35,6 +36,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "7e5a4de9-aa2b-4b6c-8121-6976e28e8275"
+      }
     }
   }
 }
